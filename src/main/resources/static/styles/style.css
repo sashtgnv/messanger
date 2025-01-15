@@ -1,0 +1,48 @@
+.input-container {
+    display: block;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.side-bar {
+    width: 25%;
+    height: 100vh;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    float: left;
+}
+
+.icon{
+    width: 60px;
+}
+
+.upper {
+    display: flex;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    justify-content: space-between;
+}
+
+.profile-container {
+    height: 10%;
+    display: inline;
+}
+
+
+.find-user-container {
+    margin-top: 10%;
+    display: flex;
+}
+
+.chat-profile-container {
+    display: flex;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    background-color: rgba(237, 182, 65, 0.737);
+}
