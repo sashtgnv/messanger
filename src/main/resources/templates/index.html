@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messenger</title>
-    <link rel="stylesheet" href="static/styles/style.css">
+    <link rel="stylesheet" href="styles/style.css" >
     <style>
         a {
             text-decoration: none;
@@ -18,69 +18,58 @@
         <div class="upper">
             <a href="#">
                 <div class="profile-container">
-                    <img class="icon" src="static/images/user_avatar_.webp" alt="profile">
+                    <img class="icon" src="/images/user_avatar_.webp" alt="profile">
                     <span>username</span>
                 </div>
             </a>
             <a href="#">
-                <img class="icon" src="static/images/settings.webp" alt="settings">
+                <img class="icon" src="/images/settings.webp" alt="settings">
             </a>
         </div>
-
         <div class="find-user-container">
             <form action="#" method="get"></form>
             <label for="find"></label>
             <input type="text" id="find">
             <button>
-                <img style="height: 30px;" src="static/images/find-user.png" alt="profile">
+                <img style="height: 30px;" src="/images/find-user.png" alt="profile">
             </button>
         </div>
-        <div class="chat-list">
+        <div class="chat-list" th:each="user : ${users}">
             <a href="#">
                 <div class="profile-container chat-profile-container">
-                    <img class="icon" src="static/images/user_avatar_.webp" alt="profile">
-                    <span>username</span>
-                </div>
-            </a>
-            <a href="#">
-                <div class="profile-container chat-profile-container">
-                    <img class="icon" src="static/images/user_avatar_.webp" alt="profile">
-                    <span>username</span>
-                </div>
-            </a>
-            <a href="#">
-                <div class="profile-container chat-profile-container">
-                    <img class="icon" src="static/images/user_avatar_.webp" alt="profile">
-                    <span>username</span>
-                </div>
-            </a>
-            <a href="#">
-                <div class="profile-container chat-profile-container">
-                    <img class="icon" src="static/images/user_avatar_.webp" alt="profile">
-                    <span>username</span>
-                </div>
-            </a>
-            <a href="#">
-                <div class="profile-container chat-profile-container">
-                    <img class="icon" src="static/images/user_avatar_.webp" alt="profile">
-                    <span>username</span>
-                </div>
-            </a>
-            <a href="#">
-                <div class="profile-container chat-profile-container">
-                    <img class="icon" src="static/images/user_avatar_.webp" alt="profile">
-                    <span>username</span>
-                </div>
-            </a>
-            <a href="#">
-                <div class="profile-container chat-profile-container">
-                    <img class="icon" src="static/images/user_avatar_.webp" alt="profile">
-                    <span>username</span>
+                    <img class="icon" src="/images/user_avatar_.webp" alt="profile">
+                    <span th:text="${user.username}">username</span>
                 </div>
             </a>
         </div>
     </div>
-    <div class="chat"></div>
+    <div class="chat">
+        <div class="upper">
+            <div class="profile-container">
+                <img class="icon" src="/images/user_avatar_.webp" alt="profile">
+                <span>username</span>
+            </div>
+        </div>
+        <div class="chat-window">
+            <div class="text-input-conteiner">
+                <form action="">
+                    <input type="text">
+                    <button>send</button>
+                </form>
+            </div>
+            <div class="messege-right">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis exercitationem veniam ipsa, hic
+                    earum sit tempora eveniet ab eaque in modi fugiat unde provident laboriosam perspiciatis et voluptas
+                    laborum praesentium.</p>
+            </div>
+            <div class="messege-left">
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut laboriosam quibusdam veritatis tempora
+                    eum illum quia iure est nobis quaerat, aspernatur ex tempore magnam eos quo. Accusamus consequatur
+                    expedita consectetur!</p>
+            </div>
+        </div>
+
+    </div>
 </body>
 
 </html>
