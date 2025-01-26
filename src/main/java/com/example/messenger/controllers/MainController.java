@@ -23,8 +23,9 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String mainPage(Model model){
+    public String mainPage(HttpServletRequest request,Model model){
         model.addAttribute("users",userService.getAllUsers());
+        System.out.println();
         return "index";
     }
 
