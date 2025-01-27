@@ -89,6 +89,10 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     /*security*/
 
     @Override

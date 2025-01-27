@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import javax.swing.text.html.Option;
@@ -24,37 +25,39 @@ import java.util.Optional;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class SecurityConfig {
+public class SecurityConfig{
 
     @Bean
     public UserDetailsService userDetailsService(){
         return new UserDetailsService() {
             @Autowired
-            UserRepository userRepository;
+            private UserRepository userRepository;
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-/*                Optional<User> user = Optional.ofNullable(userRepository.findByEmail(username));
-                return user.map(User::new)
-                        .orElseThrow(()->new UsernameNotFoundException(username+ "There not such user in REPO"));*/
-
                 return userRepository.findByUsername(username);
             }
         };
     }
 
+//    @Bean
+//    public AuthenticationProvider authenticationProvider(){
+//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+//        provider.setUserDetailsService(userDetailsService());
+//        provider.setPasswordEncoder(passwordEncoder());
+//        return provider;
+//    }
+
     @Bean
-    public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService());
-        provider.setPasswordEncoder(new BCryptPasswordEncoder(12));
-        return provider;
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth->auth.requestMatchers("/login").permitAll()
-                        .requestMatchers("/**").authenticated())
+                .authorizeHttpRequests(auth-> auth.requestMatchers("/registration")
+                                .permitAll().anyRequest()
+                                .authenticated())
                 .formLogin(form->form.loginPage("/login").permitAll())
                 .build();
 

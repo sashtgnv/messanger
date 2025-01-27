@@ -7,11 +7,13 @@
 </head>
 <body>
     <h1>Messenger</h1>
-    <form action="/login" method="post">
+    <form action="/registration" method="post">
         <div><label> User Name : <input type="text" name="username"/> </label></div>
+        <div><label> Email : <input type="text" name="email"/> </label></div>
         <div><label> Password: <input type="password" name="password"/> </label></div>
-        <div><input type="submit" value="Sign In"/></div>
+        <div><input type="submit" value="Registration"/></div>
+        <p th:if="${error}">error</p>
     </form>
-    <a href="registration"><p>Registration</p></a>
+    <a href="login"><p>Log in</p></a>
 </body>
 </html>
