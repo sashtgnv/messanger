@@ -26,11 +26,15 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = new HashSet<>();
     private LocalDateTime dateOfCreated;
+    @OneToMany(mappedBy = "sender",fetch = FetchType.LAZY)
+    private List<Message> sendedMessages;
+    @OneToMany(mappedBy = "recipient",fetch = FetchType.LAZY)
+    private List<Message> recipientedMesseges;
 
     public User() {
     }
 
-    public User(Long id, String username, String email, String password, boolean active, Set<Role> roles, LocalDateTime dateOfCreated) {
+    public User(Long id, String username, String email, String password, boolean active, Set<Role> roles, LocalDateTime dateOfCreated, List<Message> sendedMessages, List<Message> recipientedMesseges) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -38,6 +42,8 @@ public class User implements UserDetails {
         this.active = active;
         this.roles = roles;
         this.dateOfCreated = dateOfCreated;
+        this.sendedMessages = sendedMessages;
+        this.recipientedMesseges = recipientedMesseges;
     }
 
     @PrePersist
@@ -91,6 +97,22 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Message> getSendedMessages() {
+        return sendedMessages;
+    }
+
+    public void setSendedMessages(List<Message> sendedMessages) {
+        this.sendedMessages = sendedMessages;
+    }
+
+    public List<Message> getRecipientedMesseges() {
+        return recipientedMesseges;
+    }
+
+    public void setRecipientedMesseges(List<Message> recipientedMesseges) {
+        this.recipientedMesseges = recipientedMesseges;
     }
 
     /*security*/
