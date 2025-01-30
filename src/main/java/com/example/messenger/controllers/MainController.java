@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -26,8 +27,21 @@ public class MainController {
     }
 
     @GetMapping("/")
-
     public String mainPage(HttpServletRequest request,Model model, @AuthenticationPrincipal User user){
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("users",userService.getAllUsers());
+        return "main-page";
+    }
+
+    @GetMapping("/{idRecipient}")
+    public String chat(Model model, HttpServletRequest request, @AuthenticationPrincipal User user, @PathVariable Long idRecipient){
+        User recipient = null;
+        try {
+            recipient = userService.getById(idRecipient);
+        } catch (NullPointerException e) {
+            return "redirect:/";
+        }
+        model.addAttribute("recipient", recipient);
         model.addAttribute("username", user.getUsername());
         model.addAttribute("users",userService.getAllUsers());
         return "main-page";

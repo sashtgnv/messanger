@@ -1,6 +1,8 @@
 body {
     margin: 0;
     padding: 0;
+    background-color: rgba(237, 182, 65, 0.737);
+
 }
 
 .side-bar {
@@ -24,15 +26,6 @@ body {
     justify-content: space-between;
     height: 10%;
 }
-
-.profile-container {
-    
-}
-
-.chat-list {
-    /* height: 90vh; */
-}
-
 
 .find-user-container {
     margin-top: 10%;
