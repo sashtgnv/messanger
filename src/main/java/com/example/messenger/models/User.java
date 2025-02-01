@@ -115,6 +115,31 @@ public class User implements UserDetails {
         this.recipientedMesseges = recipientedMesseges;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return active == user.active && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles) && Objects.equals(dateOfCreated, user.dateOfCreated);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, email, password, active, roles, dateOfCreated);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "dateOfCreated=" + dateOfCreated +
+                ", roles=" + roles +
+                ", active=" + active +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", id=" + id +
+                '}';
+    }
+
     /*security*/
 
     @Override

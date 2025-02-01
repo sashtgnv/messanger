@@ -35,7 +35,7 @@
             </button>
         </div>
         <div class="chat-list" th:each="user : ${users}">
-            <a th:href="@{user.id}">
+            <a th:href="@{/{idRecipient}(idRecipient=${user.getId()})}">
                 <div class="profile-container chat-profile-container">
                     <img class="icon" src="/images/user_avatar_.webp" alt="profile">
                     <span th:text="${user.username}">username</span>
@@ -52,17 +52,17 @@
         </div>
         <div class="chat-window">
             <div class="text-input-conteiner">
-                <form action="">
-                    <input type="text">
+                <form th:action="@{/{idRecipient}(idRecipient=${recipient.getId()})}" method="post">
+                    <input type="text" name="messageText">
                     <button>send</button>
                 </form>
             </div>
-            <div class="messege-right">
+            <div class="message-right">
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis exercitationem veniam ipsa, hic
                     earum sit tempora eveniet ab eaque in modi fugiat unde provident laboriosam perspiciatis et voluptas
                     laborum praesentium.</p>
             </div>
-            <div class="messege-left">
+            <div class="message-left">
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aut laboriosam quibusdam veritatis tempora
                     eum illum quia iure est nobis quaerat, aspernatur ex tempore magnam eos quo. Accusamus consequatur
                     expedita consectetur!</p>

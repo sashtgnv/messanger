@@ -54,7 +54,7 @@ body {
     flex-direction: column-reverse;
 }
 
-.messege-right>p {
+.message-right>p {
     margin: 5px;
     padding: 3px;
     border-radius: 10px;
@@ -63,7 +63,7 @@ body {
     background-color: rgb(145, 110, 241);
 }
 
-.messege-left>p {
+.message-left>p {
     margin: 5px;
     padding: 3px;
     border-radius: 10px;

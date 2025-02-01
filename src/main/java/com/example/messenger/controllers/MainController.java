@@ -1,6 +1,8 @@
 package com.example.messenger.controllers;
 
+import com.example.messenger.models.Message;
 import com.example.messenger.models.User;
+import com.example.messenger.repositoires.MessageRepository;
 import com.example.messenger.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,40 +13,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.time.LocalDateTime;
 
 @Controller
 public class MainController {
     private final UserService userService;
+    private final MessageRepository messageRepository;
 
     @Autowired
-    public MainController(UserService userService) {
+    public MainController(UserService userService, MessageRepository messageRepository) {
         this.userService = userService;
+        this.messageRepository = messageRepository;
     }
 
     @GetMapping("/login")
     public String login() {
         return "login";
-    }
-
-    @GetMapping("/")
-    public String mainPage(HttpServletRequest request,Model model, @AuthenticationPrincipal User user){
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("users",userService.getAllUsers());
-        return "main-page";
-    }
-
-    @GetMapping("/{idRecipient}")
-    public String chat(Model model, HttpServletRequest request, @AuthenticationPrincipal User user, @PathVariable Long idRecipient){
-        User recipient = null;
-        try {
-            recipient = userService.getById(idRecipient);
-        } catch (NullPointerException e) {
-            return "redirect:/";
-        }
-        model.addAttribute("recipient", recipient);
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("users",userService.getAllUsers());
-        return "main-page";
     }
 
     @GetMapping("/registration")
@@ -60,6 +46,35 @@ public class MainController {
         }
         return "redirect:/login";
     }
+
+    @GetMapping("/")
+    public String mainPage(Model model, @AuthenticationPrincipal User user){
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("users",userService.getAllUsers());
+        return "main-page";
+    }
+
+    @GetMapping("/{idRecipient}")
+    public String chat(Model model, @AuthenticationPrincipal User user, @PathVariable Long idRecipient){
+        User recipient = null;
+        try {
+            recipient = userService.getById(idRecipient);
+        } catch (NullPointerException e) {
+            return "redirect:/";
+        }
+        model.addAttribute("recipient", recipient);
+        model.addAttribute("username", user.getUsername());
+        model.addAttribute("users",userService.getAllUsers());
+        return "main-page";
+    }
+
+    @PostMapping("/{idRecipient}")
+    public String postMessage(@RequestParam String messageText, Model model, @AuthenticationPrincipal User sender, @PathVariable Long idRecipient){
+        User recipient = userService.getById(idRecipient);
+        Message message = new Message(null,sender,recipient, LocalDateTime.now(),messageText);
+        return "redirect:/{idRecipient}";
+    }
+
 
 
 }
