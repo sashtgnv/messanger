@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messenger</title>
-    <link rel="stylesheet" href="styles/style.css" >
+    <link rel="stylesheet" href="styles/style.css">
     <style>
         a {
             text-decoration: none;
@@ -19,7 +19,7 @@
             <a href="#">
                 <div class="profile-container">
                     <img class="icon" src="/images/user_avatar_.webp" alt="profile">
-                    <span th:text="${username}">username</span>
+                    <span th:text="${sender}">sender</span>
                 </div>
             </a>
             <a href="#">
@@ -27,12 +27,12 @@
             </a>
         </div>
         <div class="find-user-container">
-            <form action="#" method="get"></form>
-            <label for="find"></label>
-            <input type="text" id="find">
-            <button>
-                <img style="height: 30px;" src="/images/find-user.png" alt="profile">
-            </button>
+            <form th:action="@{/find_user}" method="get">
+                <input type="text" name="username">
+                <button>
+                    <img style="height: 30px;" src="/images/find-user.png" alt="profile">
+                </button>
+            </form>
         </div>
         <div class="chat-list" th:each="user : ${users}">
             <a th:href="@{/{idRecipient}(idRecipient=${user.getId()})}">
@@ -53,7 +53,7 @@
         <div class="chat-window">
             <div class="text-input-conteiner">
                 <form th:action="@{/{idRecipient}(idRecipient=${recipient.getId()})}" method="post">
-                    <input type="text" name="messageText">
+                    <input type="text" name="messageText" autocomplete="off">
                     <button>send</button>
                 </form>
             </div>

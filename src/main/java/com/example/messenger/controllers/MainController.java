@@ -4,9 +4,7 @@ import com.example.messenger.models.Message;
 import com.example.messenger.models.User;
 import com.example.messenger.repositoires.MessageRepository;
 import com.example.messenger.services.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,8 +47,8 @@ public class MainController {
 
     @GetMapping("/")
     public String mainPage(Model model, @AuthenticationPrincipal User user){
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("users",userService.getAllUsers());
+        model.addAttribute("sender", user.getUsername());
+        model.addAttribute("users",userService.findUserFriends(user));
         return "main-page";
     }
 
@@ -58,23 +56,53 @@ public class MainController {
     public String chat(Model model, @AuthenticationPrincipal User user, @PathVariable Long idRecipient){
         User recipient = null;
         try {
-            recipient = userService.getById(idRecipient);
+            recipient = userService.findById(idRecipient);
         } catch (NullPointerException e) {
             return "redirect:/";
         }
         model.addAttribute("recipient", recipient);
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("users",userService.getAllUsers());
+        model.addAttribute("sender", user.getUsername());
+        model.addAttribute("users",userService.findUserFriends(user));
         return "main-page";
     }
 
     @PostMapping("/{idRecipient}")
     public String postMessage(@RequestParam String messageText, Model model, @AuthenticationPrincipal User sender, @PathVariable Long idRecipient){
-        User recipient = userService.getById(idRecipient);
-        Message message = new Message(null,sender,recipient, LocalDateTime.now(),messageText);
+        if (!messageText.isEmpty()) {
+            User recipient = userService.findById(idRecipient);
+            Message message = new Message(null,sender,recipient, LocalDateTime.now(),messageText);
+            messageRepository.save(message);
+        }
         return "redirect:/{idRecipient}";
     }
 
+    @GetMapping("/find_user")
+    public String find(Model model,@RequestParam String username, @AuthenticationPrincipal User user){
+        if (username.isEmpty()) {
+            System.out.println(222222222);
+            return "redirect:/";
+        }
+        else {
+            System.out.println(11111111);
+            model.addAttribute("users", userService.findByUsername(username));
+            model.addAttribute("sender", user.getUsername());
+            return "main-page";
+        }
+    }
+
+    /*@GetMapping("/find_user")
+    public String find(Model model){
+        String username = "bobb";
+        if (username.isEmpty()) {
+            System.out.println(222222222);
+            return "redirect:/";
+        }
+        else {
+            System.out.println(11111111);
+            model.addAttribute("users", userService.findByUsername(username));
+            return "main-page";
+        }
+    }*/
 
 
 }

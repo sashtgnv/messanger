@@ -29,11 +29,19 @@ public class UserService {
         return false;
     }
 
-    public List<User> getAllUsers(){
+    public List<User> findAllUsers(){
         return userRepository.findAll();
     }
 
-    public User getById(Long id){
+    public User findById(Long id){
         return userRepository.findById(id).orElse(null);
+    }
+
+    public List<User> findUserFriends(User user){
+        return userRepository.findUserFriends(user.getId());
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }
