@@ -25,6 +25,8 @@ body {
     border-width: 1px;
     justify-content: space-between;
     height: 10%;
+    background-color: brown;
+
 }
 
 .find-user-container {
@@ -36,7 +38,6 @@ body {
     width: 75%;
     margin-left: 25%;
     height: 100vh;
-    background-color: brown;
 }
 
 .chat-profile-container {
