@@ -19,7 +19,7 @@ public class MessageService {
         messageRepository.save(message);
     }
 
-    public List<Message> findBySenderAndRecipient(User user1, User user2) {
-        return messageRepository.findBySenderAndRecipient(user1.getId(),user2.getId());
+    public List<Message> findBySenderAndRecipient(Long user1Id, Long user2Id) {
+        return messageRepository.findBySenderAndRecipient(user1Id, user2Id);
     }
 }

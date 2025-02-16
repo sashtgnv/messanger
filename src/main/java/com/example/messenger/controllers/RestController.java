@@ -2,72 +2,77 @@ package com.example.messenger.controllers;
 
 import com.example.messenger.models.Message;
 import com.example.messenger.models.User;
-import com.example.messenger.repositoires.MessageRepository;
+import com.example.messenger.services.MessageService;
 import com.example.messenger.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
-    private MessageRepository messageRepository;
-    private UserService userService;
 
-    public RestController(MessageRepository messageRepository, UserService userService) {
-        this.messageRepository = messageRepository;
+    private UserService userService;
+    private MessageService messageService;
+
+    public RestController(UserService userService, MessageService messageService) {
         this.userService = userService;
+        this.messageService = messageService;
     }
 
     @GetMapping("/friends")
-    public Map<Long,String> rest(@AuthenticationPrincipal User user){
-        Map<Long,String> userMap = new HashMap<>();
+    public List<User.UserDTO> friends(@AuthenticationPrincipal User user){
+        List<User.UserDTO> userDTOList = new ArrayList<>();
         for (User u :userService.findUserFriends(user)) {
-            userMap.put(u.getId(), u.getUsername());
+            userDTOList.add(u.getDTO());
         }
-        return userMap;
+        return userDTOList;
     }
 
     @GetMapping("/find_user")
-    public Map<Long,String> find(@RequestParam String username, @AuthenticationPrincipal User user){
-        Map<Long,String> userMap = new HashMap<>();
+    public List<User.UserDTO> find(@RequestParam String username, @AuthenticationPrincipal User user){
+        List<User.UserDTO> userDTOList = new ArrayList<>();
         if (username.isEmpty()) {
             System.out.println("empty username");
-            return null;
+            userDTOList = friends(user);
         } else {
-            System.out.println("find user");
-            userMap.put(userService.findByUsername(username).getId(),username);
-            return userMap;
+            User u = userService.findByUsername(username);
+            if (u!=null)
+                userDTOList.add(u.getDTO());
         }
+        return userDTOList;
     }
+
+    @GetMapping("/current_user")
+    public User.UserDTO currentUser(@AuthenticationPrincipal User user){
+        return user.getDTO();
+    }
+
 
     @GetMapping("/{idRecipient}")
     public String chat(@AuthenticationPrincipal User user, @PathVariable Long idRecipient){
-//        User recipient = null;
-//        try {
-//            recipient = userService.findById(idRecipient);
-//        } catch (NullPointerException e) {
-//            return "redirect:/";
-//        }
-//        model.addAttribute("recipient", recipient);
-//        return "main-page";
-
         return userService.findById(idRecipient).getUsername();
     }
 
-    @PostMapping("/{idRecipient}")
-    public void postMessage(@RequestParam String messageText, Model model, @AuthenticationPrincipal User sender, @PathVariable Long idRecipient){
+    @GetMapping("/messages/{idRecipient}")
+    public List<Message> getMessages(@PathVariable Long idRecipient, @AuthenticationPrincipal User sender){
+        return messageService.findBySenderAndRecipient(sender.getId(), idRecipient);
+    }
+
+    @PostMapping("/messages/{idRecipient}")
+    public void postMessage(@RequestParam String messageText, @AuthenticationPrincipal User sender, @PathVariable Long idRecipient){
         if (!messageText.isEmpty()) {
             User recipient = userService.findById(idRecipient);
             Message message = new Message(null,sender,recipient, LocalDateTime.now(),messageText);
-            messageRepository.save(message);
+            messageService.save(message);
         }
     }
+
+
 }

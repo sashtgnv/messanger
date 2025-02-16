@@ -140,6 +140,10 @@ public class User implements UserDetails {
                 '}';
     }
 
+    public UserDTO getDTO(){
+        return new UserDTO(getId(),getUsername());
+    }
+
     /*security*/
 
     @Override
@@ -177,5 +181,21 @@ public class User implements UserDetails {
         return active;
     }
 
+    public class UserDTO {
+        private Long id;
+        private String username;
 
+        public UserDTO(Long id, String username) {
+            this.id = id;
+            this.username = username;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+    }
 }
