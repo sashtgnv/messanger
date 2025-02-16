@@ -66,12 +66,13 @@ public class RestController {
     }
 
     @PostMapping("/messages/{idRecipient}")
-    public void postMessage(@RequestParam String messageText, @AuthenticationPrincipal User sender, @PathVariable Long idRecipient){
+    public String  postMessage(@RequestParam String messageText, @AuthenticationPrincipal User sender, @PathVariable Long idRecipient){
         if (!messageText.isEmpty()) {
             User recipient = userService.findById(idRecipient);
             Message message = new Message(null,sender,recipient, LocalDateTime.now(),messageText);
             messageService.save(message);
         }
+        return "success";
     }
 
 
