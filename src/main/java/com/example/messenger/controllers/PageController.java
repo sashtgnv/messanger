@@ -3,9 +3,11 @@ package com.example.messenger.controllers;
 import com.example.messenger.models.User;
 import com.example.messenger.repositoires.MessageRepository;
 import com.example.messenger.services.UserService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -40,6 +42,11 @@ public class PageController {
     @GetMapping("/")
     public String mainPage(){
         return "main-page";
+    }
+
+    @GetMapping("/{idRecipient}")
+    public String chat(){
+        return "chat-page";
     }
 
 

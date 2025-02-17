@@ -55,9 +55,9 @@ public class RestController {
     }
 
 
-    @GetMapping("/{idRecipient}")
-    public String chat(@AuthenticationPrincipal User user, @PathVariable Long idRecipient){
-        return userService.findById(idRecipient).getUsername();
+    @GetMapping("/{idRecipient}/getUser")
+    public User.UserDTO getUser(@PathVariable Long idRecipient){
+        return userService.findById(idRecipient).getDTO();
     }
 
     @GetMapping("/messages/{idRecipient}")
@@ -71,7 +71,9 @@ public class RestController {
             User recipient = userService.findById(idRecipient);
             Message message = new Message(null,sender,recipient, LocalDateTime.now(),messageText);
             messageService.save(message);
+            System.out.println("success save");
         }
+
         return "success";
     }
 
