@@ -1,12 +1,14 @@
 const messageForm = document.getElementById('message-form');
+const chatWindow = document.getElementById('chat-window');
 
-let lastMessage;
+let lastMessage = -1;
 let recipient;
-let chatWindow;
 
-
+// получение сообщений
 function getMessages() {
-    fetch(`/messages/${recipient.id}`)
+    fetch(`/messages/${recipient.id}`,{
+        method:"POST"
+    })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Ошибка сети');
@@ -15,21 +17,24 @@ function getMessages() {
         })
         .then(messages => {
             messages.forEach(message => {
-                if (message.sender == currentUser.id) {
+                lastMessage = message.id;
+                if (message.sender.id == currentUser.id) {
                     const container = document.createElement('div');
                     container.className = 'message-right';
                     container.innerHTML = `<p>${message.messageText}</p>`;
                     chatWindow.appendChild(container);
                 }
+                console.log(message)
             });
         });
 }
 
+// сохранение сообщения
 messageForm.addEventListener('submit', function (event) {
     event.preventDefault();
     const formData = new FormData(messageForm);
     
-    fetch(`/messages/${recipient.id}`, {
+    fetch(`/messages/post/${recipient.id}`, {
             method:'POST',
             body:formData
         }).then(response => {
@@ -48,9 +53,11 @@ messageForm.addEventListener('submit', function (event) {
 
 // 
 
-
+// текущий собеседник
 const currentPath = window.location.pathname;
-fetch(currentPath + '/getUser')
+fetch(currentPath + '/getUser',{
+        method:"POST"
+    })
     .then(response => {
         if (!response.ok) {
             throw new Error('Ошибка сети');
@@ -62,3 +69,6 @@ fetch(currentPath + '/getUser')
         const recipientUsername = document.getElementById('recipientUsername');
         recipientUsername.textContent = recipient.username;
     });
+
+
+const intervalId = setInterval(getMessages, 5000);

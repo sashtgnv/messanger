@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -26,7 +27,7 @@ public class RestController {
         this.messageService = messageService;
     }
 
-    @GetMapping("/friends")
+    @PostMapping("/friends")
     public List<User.UserDTO> friends(@AuthenticationPrincipal User user){
         List<User.UserDTO> userDTOList = new ArrayList<>();
         for (User u :userService.findUserFriends(user)) {
@@ -35,7 +36,7 @@ public class RestController {
         return userDTOList;
     }
 
-    @GetMapping("/find_user")
+    @PostMapping("/find_user")
     public List<User.UserDTO> find(@RequestParam String username, @AuthenticationPrincipal User user){
         List<User.UserDTO> userDTOList = new ArrayList<>();
         if (username.isEmpty()) {
@@ -49,23 +50,25 @@ public class RestController {
         return userDTOList;
     }
 
-    @GetMapping("/current_user")
+    @PostMapping("/current_user")
     public User.UserDTO currentUser(@AuthenticationPrincipal User user){
         return user.getDTO();
     }
 
 
-    @GetMapping("/{idRecipient}/getUser")
+    @PostMapping("/{idRecipient}/getUser")
     public User.UserDTO getUser(@PathVariable Long idRecipient){
         return userService.findById(idRecipient).getDTO();
     }
 
-    @GetMapping("/messages/{idRecipient}")
+    @PostMapping("/messages/{idRecipient}")
     public List<Message> getMessages(@PathVariable Long idRecipient, @AuthenticationPrincipal User sender){
-        return messageService.findBySenderAndRecipient(sender.getId(), idRecipient);
+//        System.out.println("get for /messages/idrecip");
+        List<Message> messages = messageService.findBySenderAndRecipient(sender.getId(), idRecipient);
+        return (Objects.equals(messages.getLast().getId(), 1L)) ? List.of() : messages;
     }
 
-    @PostMapping("/messages/{idRecipient}")
+    @PostMapping("/messages/post/{idRecipient}")
     public String  postMessage(@RequestParam String messageText, @AuthenticationPrincipal User sender, @PathVariable Long idRecipient){
         if (!messageText.isEmpty()) {
             User recipient = userService.findById(idRecipient);

@@ -5,7 +5,9 @@ const sender = document.getElementById('sender');
 let currentUser;
 
 // текущий пользователь
-fetch('/current_user')
+fetch('/current_user',{
+        method:"POST"
+    })
     .then(response => {
         if (!response.ok) {
             throw new Error('Ошибка сети');
@@ -24,11 +26,10 @@ form.addEventListener('submit', function (event) {
     // Собираем данные из формы
     const formData = new FormData(form);
 
-    // Преобразуем FormData в URL-параметры
-    const urlParams = new URLSearchParams(formData).toString();
-    const url = `/find_user?${urlParams}`;
-
-    fetch(url)
+    fetch("/find_user", {
+        method: "POST",
+        body: formData
+    })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Ошибка сети');
@@ -49,7 +50,9 @@ form.addEventListener('submit', function (event) {
 });
 
 // поиск друзей пользователя
-fetch('/friends')
+fetch('/friends',{
+        method:"POST"
+    })
     .then(response => {
         if (!response.ok) {
             throw new Error('Ошибка сети');
