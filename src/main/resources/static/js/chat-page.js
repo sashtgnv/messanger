@@ -6,10 +6,19 @@ let recipient;
 
 // получение сообщений
 function getMessages() {
+    
+    const json = {
+        lastMessageid: lastMessage
+    }   
+
     fetch(`/messages/${recipient.id}`,{
-        method:"POST"
+        method:"POST",
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify(json)
     })
-        .then(response => {
+    .then(response => {
             if (!response.ok) {
                 throw new Error('Ошибка сети');
             }

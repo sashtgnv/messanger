@@ -6,14 +6,12 @@ import com.example.messenger.services.MessageService;
 import com.example.messenger.services.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @org.springframework.web.bind.annotation.RestController
@@ -62,10 +60,13 @@ public class RestController {
     }
 
     @PostMapping("/messages/{idRecipient}")
-    public List<Message> getMessages(@PathVariable Long idRecipient, @AuthenticationPrincipal User sender){
-//        System.out.println("get for /messages/idrecip");
+    public List<Message.MessageDTO> getMessages(@PathVariable Long idRecipient, @AuthenticationPrincipal User sender, @RequestBody Map<String,Long> json){
+//        Long lastMessageid = json.get("lastMessageid");
+//        System.out.println(lastMessageid);
         List<Message> messages = messageService.findBySenderAndRecipient(sender.getId(), idRecipient);
-        return (Objects.equals(messages.getLast().getId(), 1L)) ? List.of() : messages;
+        List<Message.MessageDTO> messageDTOS = new ArrayList<>();
+        for (Message m : messages) messageDTOS.add(m.getDTO());
+        return (Objects.equals(messages.getLast().getId(), 1L)) ? List.of() : messageDTOS;
     }
 
     @PostMapping("/messages/post/{idRecipient}")
@@ -74,7 +75,7 @@ public class RestController {
             User recipient = userService.findById(idRecipient);
             Message message = new Message(null,sender,recipient, LocalDateTime.now(),messageText);
             messageService.save(message);
-            System.out.println("success save");
+//            System.out.println("success save");
         }
 
         return "success";
