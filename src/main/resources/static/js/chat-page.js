@@ -7,17 +7,13 @@ let recipient;
 
 // получение сообщений
 function getMessages() {
-    
-    const json = {
-        lastMessageid: lastMessage
-    }   
+    const params = new URLSearchParams({ lastMessageid: lastMessage}).toString();
 
-    fetch(`/messages/${recipient.id}`,{
-        method:"POST",
+    fetch(`/messages/${recipient.id}?${params}`,{
+        method:"GET",
         headers: {
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify(json)
+            'api':'true'
+        }
     })
     .then(response => {
             if (!response.ok) {
@@ -49,7 +45,7 @@ messageForm.addEventListener('submit', function (event) {
     event.preventDefault();
     const formData = new FormData(messageForm);
     
-    fetch(`/messages/post/${recipient.id}`, {
+    fetch(`/messages/${recipient.id}`, {
             method:'POST',
             body:formData
         }).then(response => {
@@ -71,7 +67,10 @@ messageForm.addEventListener('submit', function (event) {
 // текущий собеседник
 const currentPath = window.location.pathname;
 fetch(currentPath + '/getUser',{
-        method:"POST"
+        method:"GET",
+        headers: {
+            'api':'true'
+        }
     })
     .then(response => {
         if (!response.ok) {

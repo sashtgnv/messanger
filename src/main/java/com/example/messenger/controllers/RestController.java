@@ -4,15 +4,12 @@ import com.example.messenger.models.Message;
 import com.example.messenger.models.User;
 import com.example.messenger.services.MessageService;
 import com.example.messenger.services.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -25,60 +22,72 @@ public class RestController {
         this.messageService = messageService;
     }
 
-    @PostMapping("/friends")
-    public List<User.UserDTO> friends(@AuthenticationPrincipal User user){
+    /*друзья пользователя*/
+    @GetMapping("/friends")
+    public List<User.UserDTO> friends(@AuthenticationPrincipal User user,
+                                      @RequestHeader("api") boolean api) {
         List<User.UserDTO> userDTOList = new ArrayList<>();
-        for (User u :userService.findUserFriends(user)) {
+        for (User u : userService.findUserFriends(user)) {
             userDTOList.add(u.getDTO());
         }
         return userDTOList;
     }
 
-    @PostMapping("/find_user")
-    public List<User.UserDTO> find(@RequestParam String username, @AuthenticationPrincipal User user){
+    /*поиск пользователя*/
+    @GetMapping("/find_user")
+    public List<User.UserDTO> find(@RequestParam String username,
+                                   @AuthenticationPrincipal User user,
+                                   @RequestHeader("api") boolean api) {
         List<User.UserDTO> userDTOList = new ArrayList<>();
         if (username.isEmpty()) {
             System.out.println("empty username");
-            userDTOList = friends(user);
+            userDTOList = friends(user, true);
         } else {
             User u = userService.findByUsername(username);
-            if (u!=null)
+            if (u != null)
                 userDTOList.add(u.getDTO());
         }
         return userDTOList;
     }
 
-    @PostMapping("/current_user")
-    public User.UserDTO currentUser(@AuthenticationPrincipal User user){
+    /*получение текущего пользователя*/
+    @GetMapping("/current_user")
+    public User.UserDTO currentUser(@AuthenticationPrincipal User user,
+                                    @RequestHeader("api") boolean api) {
         return user.getDTO();
     }
 
-
-    @PostMapping("/{idRecipient}/getUser")
-    public User.UserDTO getUser(@PathVariable Long idRecipient){
+    /*получение текущего собеседника*/
+    @GetMapping("/{idRecipient}/getUser")
+    public User.UserDTO getUser(@PathVariable Long idRecipient,
+                                @RequestHeader("api") boolean api) {
         return userService.findById(idRecipient).getDTO();
     }
 
-    @PostMapping("/messages/{idRecipient}")
-    public List<Message.MessageDTO> getMessages(@PathVariable Long idRecipient, @AuthenticationPrincipal User sender, @RequestBody Map<String,Long> json){
-        Long lastMessageid = json.get("lastMessageid");
-//        System.out.println(lastMessageid);
+    /*получения списка сообщений*/
+    @GetMapping("/messages/{idRecipient}")
+    public List<Message.MessageDTO> getMessages(@PathVariable Long idRecipient,
+                                                @AuthenticationPrincipal User sender,
+                                                @RequestParam Long lastMessageid,
+                                                @RequestHeader("api") boolean api) {
+
         List<Message> messages = messageService.findBySenderAndRecipient(sender.getId(), idRecipient);
         List<Message.MessageDTO> messageDTOS = new ArrayList<>();
         for (Message m : messages) messageDTOS.add(m.getDTO());
-        return (messages.getLast().getId() == lastMessageid) ? List.of() : messageDTOS;
+        return (messages.getLast().getId() == 1L) ? List.of() : messageDTOS;
     }
 
-    @PostMapping("/messages/post/{idRecipient}")
-    public String  postMessage(@RequestParam String messageText, @AuthenticationPrincipal User sender, @PathVariable Long idRecipient){
+    /*сохранение сообщения*/
+    @PostMapping("/messages/{idRecipient}")
+    public boolean postMessage(@RequestParam String messageText,
+                               @AuthenticationPrincipal User sender,
+                               @PathVariable Long idRecipient) {
         if (!messageText.isEmpty()) {
             User recipient = userService.findById(idRecipient);
-            Message message = new Message(null,sender,recipient, LocalDateTime.now(),messageText);
+            Message message = new Message(null, sender, recipient, LocalDateTime.now(), messageText);
             messageService.save(message);
-//            System.out.println("success save");
         }
-
-        return "success";
+        return true;
     }
 
 

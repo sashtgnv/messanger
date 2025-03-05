@@ -6,7 +6,10 @@ let currentUser;
 
 // текущий пользователь
 fetch('/current_user',{
-        method:"POST"
+        method:"GET",
+        headers: {
+            'api':'true'
+        }
     })
     .then(response => {
         if (!response.ok) {
@@ -25,10 +28,13 @@ form.addEventListener('submit', function (event) {
 
     // Собираем данные из формы
     const formData = new FormData(form);
+    const params = new URLSearchParams(formData).toString();
 
-    fetch("/find_user", {
-        method: "POST",
-        body: formData
+    fetch(`/find_user?${params}`, {
+        method: "GET",
+        headers: {
+            'api':'true'
+        }
     })
         .then(response => {
             if (!response.ok) {
@@ -51,7 +57,10 @@ form.addEventListener('submit', function (event) {
 
 // поиск друзей пользователя
 fetch('/friends',{
-        method:"POST"
+        method:"GET",
+        headers: {
+            'api':'true'
+        }
     })
     .then(response => {
         if (!response.ok) {
