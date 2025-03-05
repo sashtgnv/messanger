@@ -2,6 +2,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: rgba(237, 182, 65, 0.737);
+    overflow-y: hidden;
 
 }
 
@@ -53,6 +54,7 @@ body {
     height: 90%;
     background-color: rgb(240, 195, 98);
     flex-direction: column-reverse;
+    overflow-y: auto;
 }
 
 .message-right>p {

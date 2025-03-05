@@ -61,12 +61,12 @@ public class RestController {
 
     @PostMapping("/messages/{idRecipient}")
     public List<Message.MessageDTO> getMessages(@PathVariable Long idRecipient, @AuthenticationPrincipal User sender, @RequestBody Map<String,Long> json){
-//        Long lastMessageid = json.get("lastMessageid");
+        Long lastMessageid = json.get("lastMessageid");
 //        System.out.println(lastMessageid);
         List<Message> messages = messageService.findBySenderAndRecipient(sender.getId(), idRecipient);
         List<Message.MessageDTO> messageDTOS = new ArrayList<>();
         for (Message m : messages) messageDTOS.add(m.getDTO());
-        return (Objects.equals(messages.getLast().getId(), 1L)) ? List.of() : messageDTOS;
+        return (messages.getLast().getId() == lastMessageid) ? List.of() : messageDTOS;
     }
 
     @PostMapping("/messages/post/{idRecipient}")

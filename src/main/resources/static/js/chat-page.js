@@ -1,5 +1,6 @@
 const messageForm = document.getElementById('message-form');
 const chatWindow = document.getElementById('chat-window');
+const messagesContainer = document.getElementById('messages-container');
 
 let lastMessage = -1;
 let recipient;
@@ -25,15 +26,20 @@ function getMessages() {
             return response.json();
         })
         .then(messages => {
+            if (Array.isArray(messages) && messages.length > 0) {
+                messagesContainer.innerHTML='';
+            }
+
             messages.forEach(message => {
                 lastMessage = message.id;
+                const container = document.createElement('div');
                 if (message.sender.id == currentUser.id) {
-                    const container = document.createElement('div');
                     container.className = 'message-right';
-                    container.innerHTML = `<p>${message.messageText}</p>`;
-                    chatWindow.appendChild(container);
+                } else {
+                    container.className = 'message-left';
                 }
-                console.log(message)
+                container.innerHTML = `<p>${message.messageText}</p>`;
+                messagesContainer.appendChild(container);
             });
         });
 }
@@ -80,4 +86,4 @@ fetch(currentPath + '/getUser',{
     });
 
 
-const intervalId = setInterval(getMessages, 5000);
+const intervalId = setInterval(getMessages, 200);
