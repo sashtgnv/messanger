@@ -53,7 +53,7 @@ messageForm.addEventListener('submit', function (event) {
                 throw new Error('Ошибка сети');
             }
             // return response.text();
-        });
+        }); 
         // .then(result=>{
         //     if(result=='error'){
         //         throw new Error('Ошибка сохранения данных');

@@ -118,40 +118,20 @@ public class Message {
             return id;
         }
 
-        public void setId(Long id) {
-            this.id = id;
-        }
-
         public User.UserDTO getSender() {
             return sender;
-        }
-
-        public void setSender(User.UserDTO sender) {
-            this.sender = sender;
         }
 
         public User.UserDTO getRecipient() {
             return recipient;
         }
 
-        public void setRecipient(User.UserDTO recipient) {
-            this.recipient = recipient;
-        }
-
         public LocalDateTime getSendTime() {
             return sendTime;
         }
 
-        public void setSendTime(LocalDateTime sendTime) {
-            this.sendTime = sendTime;
-        }
-
         public String getMessageText() {
             return messageText;
-        }
-
-        public void setMessageText(String messageText) {
-            this.messageText = messageText;
         }
     }
 }
