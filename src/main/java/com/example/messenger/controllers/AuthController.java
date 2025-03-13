@@ -3,6 +3,8 @@ package com.example.messenger.controllers;
 import com.example.messenger.models.AuthRequest;
 import com.example.messenger.models.AuthResponse;
 import com.example.messenger.security.JwtUtil;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,8 +27,8 @@ public class AuthController {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @PostMapping
-    public AuthResponse createAuthenticationToken(@RequestBody AuthRequest authRequest) throws Exception {
+    @PostMapping("/authenticate")
+    public ResponseEntity<String> createAuthenticationToken(@RequestBody AuthRequest authRequest, HttpServletResponse response) throws Exception {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(),authRequest.getPassword()));
         } catch (Exception e) {
@@ -34,6 +36,11 @@ public class AuthController {
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
         String jwt = jwtUtil.generateToken(userDetails);
-        return new AuthResponse(jwt);
+        Cookie cookie = new Cookie("jwt",jwt);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(60*60);
+        return ResponseEntity.ok("Вход выполнен успешно");
     }
 }
