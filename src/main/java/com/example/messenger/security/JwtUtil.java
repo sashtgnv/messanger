@@ -18,7 +18,11 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-    private final Key SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode("secret"));
+
+    private final Key SECRET_KEY = Jwts.SIG.HS256.key().build();
+
+    public JwtUtil() {
+    }
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
