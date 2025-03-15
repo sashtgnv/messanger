@@ -35,7 +35,6 @@ public class AuthController {
         } catch (Exception e) {
             throw new Exception("Incorrect username or password",e);
         }
-        System.out.println("запрос пришел в контроллер");
         UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
         String jwt = jwtUtil.generateToken(userDetails);
         Cookie cookie = new Cookie("jwt",jwt);
@@ -46,18 +45,4 @@ public class AuthController {
         response.addCookie(cookie);
         return ResponseEntity.ok("Вход выполнен успешно");
     }
-
-    /*@PostMapping("/authenticate")
-    public ResponseEntity<String> createAuthenticationToken(HttpServletResponse response) throws Exception {
-
-        System.out.println("запрос пришел в контроллер");
-        UserDetails userDetails = userDetailsService.loadUserByUsername("sashtgnv");
-        String jwt = jwtUtil.generateToken(userDetails);
-        Cookie cookie = new Cookie("jwt",jwt);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(60*60);
-        return ResponseEntity.ok("Вход выполнен успешно");
-    }*/
 }

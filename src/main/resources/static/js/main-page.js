@@ -43,13 +43,13 @@ form.addEventListener('submit', function (event) {
             return response.json(); // Преобразуем ответ в JSON
         })
         .then(users => {
+            chatList.innerHTML = '';
             users.forEach(user => {
                 const a = document.createElement('a');
                 a.href = `/${user.id}`;
                 a.innerHTML = `<div class="profile-container chat-profile-container">
                     <img class="icon" src="/images/user_avatar_.webp" alt="profile">
                     <span>${user.username}</span></div>`;
-                chatList.innerHTML = '';
                 chatList.appendChild(a);
             });
         });

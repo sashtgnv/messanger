@@ -36,8 +36,7 @@ public class RestController {
     /*поиск пользователя*/
     @GetMapping("/find_user")
     public List<User.UserDTO> find(@RequestParam String username,
-                                   @AuthenticationPrincipal User user,
-                                   @RequestHeader("api") boolean api) {
+                                   @AuthenticationPrincipal User user) {
         List<User.UserDTO> userDTOList = new ArrayList<>();
         if (username.isEmpty()) {
             System.out.println("empty username");

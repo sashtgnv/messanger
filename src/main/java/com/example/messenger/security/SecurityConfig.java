@@ -59,16 +59,18 @@ public class SecurityConfig{
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth-> auth.requestMatchers("/registration","/authenticate","/js/**")
+        return http
+                .authorizeHttpRequests(auth-> auth.requestMatchers("/registration","/authenticate","/login","/js/**")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
 //                                .permitAll()
                 )
-                .formLogin(form->form.loginPage("/login").permitAll())
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
 
     }
