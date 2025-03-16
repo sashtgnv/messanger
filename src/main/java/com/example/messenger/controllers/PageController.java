@@ -1,7 +1,6 @@
 package com.example.messenger.controllers;
 
 import com.example.messenger.models.User;
-import com.example.messenger.repositoires.MessageRepository;
 import com.example.messenger.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,11 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class PageController {
     private final UserService userService;
-    private final MessageRepository messageRepository;
 
-    public PageController(UserService userService, MessageRepository messageRepository) {
+    public PageController(UserService userService) {
         this.userService = userService;
-        this.messageRepository = messageRepository;
     }
 
     @GetMapping("/login")

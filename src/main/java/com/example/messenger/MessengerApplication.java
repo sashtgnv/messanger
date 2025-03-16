@@ -1,17 +1,10 @@
 package com.example.messenger;
 
-import com.example.messenger.enums.Role;
-import com.example.messenger.models.Message;
-import com.example.messenger.models.User;
 import com.example.messenger.services.MessageService;
 import com.example.messenger.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @SpringBootApplication
 public class MessengerApplication {

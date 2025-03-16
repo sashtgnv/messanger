@@ -7,23 +7,18 @@ let recipient;
 
 // получение сообщений
 function getMessages() {
-    const params = new URLSearchParams({ lastMessageid: lastMessage}).toString();
+    const params = new URLSearchParams({ lastMessageid: lastMessage }).toString();
 
-    fetch(`/messages/${recipient.id}?${params}`,{
-        method:"GET",
+    fetch(`/messages/${recipient.id}?${params}`, {
+        method: "GET",
         headers: {
-            'api':'true'
+            'api': 'true'
         }
     })
-    .then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка сети');
-            }
-            return response.json();
-        })
+        .then(response =>response.json())
         .then(messages => {
             if (Array.isArray(messages) && messages.length > 0) {
-                messagesContainer.innerHTML='';
+                messagesContainer.innerHTML = '';
             }
 
             messages.forEach(message => {
@@ -37,6 +32,9 @@ function getMessages() {
                 container.innerHTML = `<p>${message.messageText}</p>`;
                 messagesContainer.appendChild(container);
             });
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
         });
 }
 
@@ -44,21 +42,20 @@ function getMessages() {
 messageForm.addEventListener('submit', function (event) {
     event.preventDefault();
     const formData = new FormData(messageForm);
-    
+
     fetch(`/messages/${recipient.id}`, {
-            method:'POST',
-            body:formData
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка сети');
-            }
-            // return response.text();
-        }); 
-        // .then(result=>{
-        //     if(result=='error'){
-        //         throw new Error('Ошибка сохранения данных');
-        //     }
-        // })
+        method: 'POST',
+        body: formData
+    // }).then(response => {
+        // return response.text();
+    }).catch(error => {
+        console.error('Ошибка:', error);
+    });;
+    // .then(result=>{
+    //     if(result=='error'){
+    //         throw new Error('Ошибка сохранения данных');
+    //     }
+    // })
     messageForm.reset();
 })
 
@@ -66,22 +63,19 @@ messageForm.addEventListener('submit', function (event) {
 
 // текущий собеседник
 const currentPath = window.location.pathname;
-fetch(currentPath + '/getUser',{
-        method:"GET",
-        headers: {
-            'api':'true'
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Ошибка сети');
-        }
-        return response.json();
-    })
+fetch(currentPath + '/getUser', {
+    method: "GET",
+    headers: {
+        'api': 'true'
+    }
+})
+    .then(response => response.json())
     .then(user => {
         recipient = user;
         const recipientUsername = document.getElementById('recipientUsername');
         recipientUsername.textContent = recipient.username;
+    }).catch(error => {
+        console.error('Ошибка:', error);
     });
 
 

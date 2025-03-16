@@ -11,16 +11,13 @@ fetch('/current_user',{
             'api':'true'
         }
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Ошибка сети');
-        }
-        return response.json(); // Преобразуем ответ в JSON
-    })
+    .then(response => response.json())
     .then(user => {
         currentUser = user;
         sender.textContent = user.username;
-    })
+    }).catch(error => {
+        console.error('Ошибка:', error);
+    });
 
 // поиск пользователя
 form.addEventListener('submit', function (event) {
@@ -36,12 +33,7 @@ form.addEventListener('submit', function (event) {
             'api':'true'
         }
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка сети');
-            }
-            return response.json(); // Преобразуем ответ в JSON
-        })
+        .then(response => response.json())
         .then(users => {
             chatList.innerHTML = '';
             users.forEach(user => {
@@ -52,6 +44,8 @@ form.addEventListener('submit', function (event) {
                     <span>${user.username}</span></div>`;
                 chatList.appendChild(a);
             });
+        }).catch(error => {
+            console.error('Ошибка:', error);
         });
 });
 
@@ -62,12 +56,7 @@ fetch('/friends',{
             'api':'true'
         }
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Ошибка сети');
-        }
-        return response.json();
-    })
+    .then(response =>response.json())
     .then(users => {
         users.forEach(user => {
             const a = document.createElement('a');
@@ -79,5 +68,7 @@ fetch('/friends',{
             chatList.appendChild(a);
         });
 
+    }).catch(error => {
+        console.error('Ошибка:', error);
     });
 
