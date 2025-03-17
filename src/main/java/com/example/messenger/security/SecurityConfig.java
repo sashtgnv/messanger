@@ -1,5 +1,6 @@
 package com.example.messenger.security;
 
+import jakarta.servlet.http.Cookie;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -64,6 +65,18 @@ public class SecurityConfig {
 //                .exceptionHandling(e -> e.accessDeniedPage("/403.html"))
                 .exceptionHandling(c ->
                         c.authenticationEntryPoint((req, res, ex) -> res.sendRedirect("/login")))
+                .logout(c ->
+                        c.logoutUrl("/logout")
+                                .addLogoutHandler(((request, response, authentication) -> {
+                                    Cookie cookie = new Cookie("jwt", null);
+                                    cookie.setHttpOnly(true);
+                                    cookie.setSecure(true);
+                                    cookie.setPath("/");
+                                    cookie.setMaxAge(0);
+                                    response.addCookie(cookie);
+                                }))
+                                .logoutSuccessUrl("/login")
+                )
                 .build();
 
     }

@@ -45,4 +45,14 @@ public class AuthController {
         response.addCookie(cookie);
         return ResponseEntity.ok("Вход выполнен успешно");
     }
+
+    /*@PostMapping("/logout")
+    public void logout(HttpServletResponse response){
+        Cookie cookie = new Cookie("jwt",null);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+    }*/
 }

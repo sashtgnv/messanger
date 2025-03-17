@@ -2,6 +2,8 @@ const form = document.getElementById('find-user-form');
 const chatList = document.getElementById('chat-list-id');
 const chat = document.getElementById('chat');
 const sender = document.getElementById('sender');
+const logout = document.getElementById('logout');
+
 let currentUser;
 
 // текущий пользователь
@@ -72,3 +74,13 @@ fetch('/friends',{
         console.error('Ошибка:', error);
     });
 
+
+logout.addEventListener('click', function(event){
+    event.preventDefault();
+    fetch('/logout',{
+        method:'POST'
+    }).catch(error => {
+        console.error('Ошибка: ',error);
+    })
+    window.location.href = '/login';
+})
