@@ -4,16 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messenger</title>
+    <link rel="stylesheet" href="styles/style.css">
+
+    <style>
+        a {
+            color: black;
+        }
+    </style>
 </head>
 <body>
-    <h1>Messenger</h1>
-    <form action="/registration" method="post">
-        <div><label> User Name : <input type="text" name="username"/> </label></div>
-        <div><label> Email : <input type="text" name="email"/> </label></div>
-        <div><label> Password: <input type="password" name="password"/> </label></div>
-        <div><input type="submit" value="Registration"/></div>
-        <p th:if="${error}">error</p>
-    </form>
-    <a href="login"><p>Log in</p></a>
+    <div class="login-reg-form">
+        <h1>Messenger</h1>
+        <form action="/registration" method="post">
+            <div><label> User Name : <input type="text" name="username"/> </label></div>
+            <div><label> Email : <input type="text" name="email"/> </label></div>
+            <div><label> Password: <input type="password" name="password"/> </label></div>
+            <div><input type="submit" value="Registration"/></div>
+            <p th:if="${error}">error</p>
+        </form>
+        <a href="login"><p>Log in</p></a>
+    </div>
 </body>
 </html>

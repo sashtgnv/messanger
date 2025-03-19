@@ -4,16 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messenger</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <style>
+        a {
+            color: black;
+        }
+    </style>
 </head>
 <body>
-    <h1>Messenger</h1>
-    <form id="form">
-        <div><label> User Name : <input type="text" name="username"/> </label></div>
-        <div><label> Password: <input type="password" name="password"/> </label></div>
-        <div><input type="submit" value="Sign In"/></div>
-    </form>
-    <a href="registration"><p>Registration</p></a>
-
-    <script src="/js/login-page.js"></script>
+    <div class="login-reg-form">
+        <h1>Messenger</h1>
+        <form id="form">
+            <div><label> User Name : <input type="text" name="username"/> </label></div>
+            <div><label> Password: <input type="password" name="password"/> </label></div>
+            <div><input type="submit" value="Sign In"/></div>
+        </form>
+        <a href="registration"><p>Registration</p></a>
+        <script src="/js/login-page.js"></script>
+    </div>
 </body>
 </html>

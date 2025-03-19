@@ -1,10 +1,20 @@
+@font-face {
+    font-family: "Roboto";
+    src: url("../fonts/Roboto/Roboto-VariableFont_wdth\,wght.ttf");
+}
+
+*{
+    font-family: "Roboto";
+}
+
 body {
     margin: 0;
     padding: 0;
-    background-color: rgba(237, 182, 65, 0.737);
+    background-color:#99FF66;
     overflow-y: hidden;
-
 }
+
+
 
 .side-bar {
     width: 25%;
@@ -21,18 +31,15 @@ body {
 
 .upper {
     display: flex;
-    border-style: solid;
-    border-color: black;
-    border-width: 1px;
     justify-content: space-between;
     height: 10%;
-    background-color: brown;
+    background-color: #339900;
 
 }
 
 .find-user-container {
     margin-top: 10%;
-    display: flex;
+    display: block;
 }
 
 .chat {
@@ -46,13 +53,13 @@ body {
     border-style: solid;
     border-color: black;
     border-width: 1px;
-    background-color: rgba(237, 182, 65, 0.737);
+    background-color: #339900;
 }
 
 .chat-window {
     display: flex;
     height: 90%;
-    background-color: rgb(240, 195, 98);
+    background-color: #99FF66;
     flex-direction: column-reverse;
     overflow-y: auto;
 }
@@ -63,7 +70,7 @@ body {
     border-radius: 10px;
     float: right;
     width: 50%;
-    background-color: rgb(145, 110, 241);
+    background-color: #339900;
 }
 
 .message-left>p {
@@ -77,9 +84,18 @@ body {
 
 .text-input-conteiner {
     margin: 20px;
-    background-color: cadetblue;
 }
 
-.text-input-conteiner>input {
+
+.login-reg-form {
+    margin-top: 30vh;
+    text-align: center;
+}
+
+#send-input {
+    min-width: 80%;
+}
+
+#find-input {
     width: 80%;
 }

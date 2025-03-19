@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messenger</title>
+
     <link rel="stylesheet" href="styles/style.css">
     <style>
         a {
@@ -23,13 +24,14 @@
                     <span id="sender">sender</span>
                 </div>
             </a>
-            <a href="/login" id="logout">
+            <a href="/login">
                 <img class="icon" src="/images/logout.png" alt="logout">
             </a>
         </div>
         <div class="find-user-container">
             <form id="find-user-form">
-                <input type="text" name="username">
+                <input type="text" name="username" id="find-input">
+                <button>find</button>
             </form>
         </div>
         <div class="chat-list" id="chat-list-id">
@@ -52,7 +54,7 @@
         <div class="chat-window" id="chat-window">
             <div class="text-input-conteiner">
                 <form id="message-form">
-                    <input type="text" name="messageText" autocomplete="off">
+                    <input type="text" name="messageText" autocomplete="off" id="send-input">
                     <button>send</button>
                 </form>
             </div>
