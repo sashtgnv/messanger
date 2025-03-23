@@ -1,32 +1,30 @@
 package com.example.messenger;
 
-import com.example.messenger.models.Message;
 import com.example.messenger.models.User;
 import com.example.messenger.services.MessageService;
 import com.example.messenger.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.time.LocalDateTime;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class MessengerApplication {
-
-	static UserService userService;
+    static UserService userService;
     static MessageService messageService;
+    static PasswordEncoder passwordEncoder;
 
-	@Autowired
-    public MessengerApplication(UserService userService, MessageService messageService) {
+    @Autowired
+    public MessengerApplication(UserService userService, MessageService messageService, PasswordEncoder passwordEncoder) {
         MessengerApplication.userService = userService;
         MessengerApplication.messageService = messageService;
+        MessengerApplication.passwordEncoder = passwordEncoder;
     }
-
 
     public static void main(String[] args) {
 		SpringApplication.run(MessengerApplication.class, args);
-        User u1 = userService.findById(1L);
-        User u2 = userService.findById(2L);
+//        User u1 = userService.findById(1L);
+//        User u2 = userService.findById(2L);
 //        for (int i = 0; i<10_000;i++) {
 //            messageService.save(new Message(
 //                    null,

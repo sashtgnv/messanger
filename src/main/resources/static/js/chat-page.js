@@ -63,6 +63,7 @@ messageForm.addEventListener('submit', function (event) {
 
 // текущий собеседник
 const currentPath = window.location.pathname;
+
 fetch(currentPath + '/getUser', {
     method: "GET",
     headers: {

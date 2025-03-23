@@ -12,12 +12,15 @@
     </style>
 </head>
 <body>
-    <div class="login-reg-form">
+    <div class="center-con">
         <h1>Messenger</h1>
         <form id="form">
-            <div><label> User Name : <input type="text" name="username"/> </label></div>
-            <div><label> Password: <input type="password" name="password"/> </label></div>
-            <div><input type="submit" value="Sign In"/></div>
+            <div class="gap-col-form">
+                <div><label> User Name : <input type="text" name="username" required/> </label></div>
+                <div><label> Password: <input type="password" name="password" required/> </label></div>
+                <div><input type="submit" value="Sign In"/></div>
+                <p id="err" hidden>Ошибка</p>
+            </div>
         </form>
         <a href="registration"><p>Registration</p></a>
         <script src="/js/login-page.js"></script>

@@ -141,7 +141,7 @@ public class User implements UserDetails {
     }
 
     public UserDTO getDTO(){
-        return new UserDTO(getId(),getUsername());
+        return new UserDTO(getId(),getUsername(),getEmail());
     }
 
     /*security*/
@@ -184,10 +184,12 @@ public class User implements UserDetails {
     public class UserDTO {
         private Long id;
         private String username;
+        private String email;
 
-        public UserDTO(Long id, String username) {
+        public UserDTO(Long id, String username, String email) {
             this.id = id;
             this.username = username;
+            this.email = email;
         }
 
         public Long getId() {
@@ -196,6 +198,10 @@ public class User implements UserDetails {
 
         public String getUsername() {
             return username;
+        }
+
+        public String getEmail() {
+            return email;
         }
     }
 }

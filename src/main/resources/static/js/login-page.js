@@ -1,4 +1,5 @@
 const form = document.getElementById('form');
+const err = document.getElementById('err');
 
 form.addEventListener('submit', function (event) {
     event.preventDefault();
@@ -8,8 +9,12 @@ form.addEventListener('submit', function (event) {
         method:'POST',
         body: formData
     }).then(response => response.text()).then(data => {
-        console.log('Ответ от сервера:', data);
-        window.location.href = '/';
+        if (data=='Вход выполнен успешно') 
+            window.location.href = '/';
+        else {
+            form.reset();
+            err.hidden = false;
+        }
     }).catch(error => {
         console.error('Ошибка:', error);
     });

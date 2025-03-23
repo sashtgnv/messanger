@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messenger</title>
     <link rel="stylesheet" href="styles/style.css">
-
     <style>
         a {
             color: black;
@@ -13,16 +12,20 @@
     </style>
 </head>
 <body>
-    <div class="login-reg-form">
+    <div class="center-con">
         <h1>Messenger</h1>
-        <form action="/registration" method="post">
-            <div><label> User Name : <input type="text" name="username"/> </label></div>
-            <div><label> Email : <input type="text" name="email"/> </label></div>
-            <div><label> Password: <input type="password" name="password"/> </label></div>
-            <div><input type="submit" value="Registration"/></div>
-            <p th:if="${error}">error</p>
+        <form id="form">
+            <div class="gap-col-form">
+                <div><label> User Name : <input type="text" name="username" required/> </label></div>
+                <div><label> Email : <input type="text" name="email" required/> </label></div>
+                <div><label> Password: <input type="password" name="password" required/> </label></div>
+                <div><input type="submit" value="Registration"/></div>
+                <p id="err" hidden>Ошибка</p>
+                <a href="login"><p>Log in</p></a>
+            </div>
         </form>
-        <a href="login"><p>Log in</p></a>
+        
     </div>
+    <script src="js/registration-page.js"></script>
 </body>
 </html>

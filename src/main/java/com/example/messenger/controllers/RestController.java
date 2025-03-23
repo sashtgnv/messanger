@@ -1,12 +1,18 @@
 package com.example.messenger.controllers;
 
+import com.example.messenger.models.ChangePasswordRequest;
 import com.example.messenger.models.Message;
 import com.example.messenger.models.User;
 import com.example.messenger.services.MessageService;
 import com.example.messenger.services.UserService;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +22,12 @@ public class RestController {
 
     private UserService userService;
     private MessageService messageService;
+    private PasswordEncoder passwordEncoder;
 
-    public RestController(UserService userService, MessageService messageService) {
+    public RestController(UserService userService, MessageService messageService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.messageService = messageService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /*друзья пользователя*/
@@ -73,7 +81,11 @@ public class RestController {
         List<Message> messages = messageService.findBySenderAndRecipient(sender.getId(), idRecipient);
         List<Message.MessageDTO> messageDTOS = new ArrayList<>();
         for (Message m : messages) messageDTOS.add(m.getDTO());
-        return (messages.getLast().getId() == 1L) ? List.of() : messageDTOS;
+        try {
+            return (messages.getLast().getId().equals(lastMessageid)) ? List.of() : messageDTOS;
+        } catch (Exception e) {
+            return List.of();
+        }
     }
 
     /*сохранение сообщения*/
@@ -87,6 +99,33 @@ public class RestController {
             messageService.save(message);
         }
         return true;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public class BadRequestException extends RuntimeException {
+    }
+
+    @PostMapping("/registration")
+    public String createUser(@ModelAttribute User user,
+                             HttpServletResponse response) {
+        System.out.println(user);
+        if (!userService.createUser(user)) {
+            return "Ошибка";
+        }
+        return "Успех";
+    }
+
+    @PostMapping("/change_password")
+    public String changePassword(@ModelAttribute ChangePasswordRequest changePasswordRequest) throws Exception {
+        User user = userService.findByUsername(changePasswordRequest.getUsername());
+
+        if (user!=null && passwordEncoder.matches(changePasswordRequest.getOldPassword(),user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
+            userService.save(user);
+            return "Пароль сменен успешно";
+        } else {
+            return "Неверный логин или пароль";
+        }
     }
 
 

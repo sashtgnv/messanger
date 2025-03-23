@@ -21,12 +21,17 @@ public class UserService {
     public boolean createUser(User user) {
         if  (userRepository.findByEmail(user.getEmail())==null && userRepository.findByUsername(user.getUsername())==null){
             user.setActive(true);
+
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.getRoles().add(Role.ROLE_USER);
             userRepository.save(user);
             return true;
         }
         return false;
+    }
+
+    public void save(User user) {
+        userRepository.save(user);
     }
 
     public List<User> findAllUsers(){

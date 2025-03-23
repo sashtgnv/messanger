@@ -62,7 +62,6 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
-//                .exceptionHandling(e -> e.accessDeniedPage("/403.html"))
                 .exceptionHandling(c ->
                         c.authenticationEntryPoint((req, res, ex) -> res.sendRedirect("/login")))
                 .logout(c ->

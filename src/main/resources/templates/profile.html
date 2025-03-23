@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messanger</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <div class="center-con">
+        <h2>Profile</h2>
+        <p>
+            username:   <span id="username">username</span>
+        </p>
+        <p>
+            email:  <span id="email">email</span>
+        </p>
+        <!-- <img src="images/user_avatar_.webp" alt="avatar"> -->
+        <form id="change-password-form">
+            <div class="gap-col-form">
+                <div><label>old password <input type="password" name="oldPassword" required></label></div>
+                <div><label>new password <input type="password" name="newPassword" required></label></div>
+                <div><input type="submit" value="change"></div>
+                <p id="err" hidden>Пароль неверный</p>
+                <p id="success" hidden>Пароль успешно сменен</p>
+            </div>
+        </form>
+    </div>
+    <script src="js/profile-page.js"></script>
+</body>
+</html>

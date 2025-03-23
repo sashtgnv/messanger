@@ -88,8 +88,8 @@ public class Message {
     public String toString() {
         return "Message{" +
                 "id=" + id +
-                ", sender=" + sender +
-                ", recipient=" + recipient +
+                ", sender=" + sender.getUsername() +
+                ", recipient=" + recipient.getUsername() +
                 ", sendTime=" + sendTime +
                 ", messageText='" + messageText + '\'' +
                 '}';

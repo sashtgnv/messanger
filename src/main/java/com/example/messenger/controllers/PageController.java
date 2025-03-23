@@ -25,15 +25,6 @@ public class PageController {
         return "registration";
     }
 
-    @PostMapping("/registration")
-    public String createUser(User user, Model model) {
-        if (!userService.createUser(user)) {
-            model.addAttribute("error", true);
-            return "registration";
-        }
-        return "redirect:/login";
-    }
-
     @GetMapping("/")
     public String mainPage() {
         return "main-page";
@@ -42,6 +33,11 @@ public class PageController {
     @GetMapping("/{idRecipient}")
     public String chat() {
         return "chat-page";
+    }
+
+    @GetMapping("/profile")
+    public String profile(){
+        return "profile";
     }
 
 

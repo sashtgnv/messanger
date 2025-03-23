@@ -87,7 +87,13 @@ body {
 }
 
 
-.login-reg-form {
+.gap-col-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.center-con {
     margin-top: 30vh;
     text-align: center;
 }
@@ -99,3 +105,8 @@ body {
 #find-input {
     width: 80%;
 }
+
+#err {
+    color: red;
+}
+
