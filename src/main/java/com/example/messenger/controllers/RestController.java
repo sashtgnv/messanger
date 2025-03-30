@@ -6,13 +6,11 @@ import com.example.messenger.models.User;
 import com.example.messenger.services.MessageService;
 import com.example.messenger.services.UserService;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +63,7 @@ public class RestController {
     }
 
     /*получение текущего собеседника*/
-    @GetMapping("/{idRecipient}/getUser")
+    @GetMapping("/chat/{idRecipient}/getUser")
     public User.UserDTO getUser(@PathVariable Long idRecipient,
                                 @RequestHeader("api") boolean api) {
         return userService.findById(idRecipient).getDTO();
@@ -121,7 +119,7 @@ public class RestController {
 
         if (user!=null && passwordEncoder.matches(changePasswordRequest.getOldPassword(),user.getPassword())) {
             user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
-            userService.save(user);
+            userService.update(user);
             return "Пароль сменен успешно";
         } else {
             return "Неверный логин или пароль";

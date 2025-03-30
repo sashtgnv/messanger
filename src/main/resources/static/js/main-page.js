@@ -61,7 +61,7 @@ fetch('/friends',{
     .then(users => {
         users.forEach(user => {
             const a = document.createElement('a');
-            a.href = `/${user.id}`;
+            a.href = `/chat/${user.id}`;
             a.innerHTML = `<div class="profile-container chat-profile-container">
                                 <img class="icon" src="/images/user_avatar_.webp" alt="profile">
                                 <span>${user.username}</span>

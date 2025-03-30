@@ -30,7 +30,7 @@ public class PageController {
         return "main-page";
     }
 
-    @GetMapping("/{idRecipient}")
+    @GetMapping("/chat/{idRecipient}")
     public String chat() {
         return "chat-page";
     }

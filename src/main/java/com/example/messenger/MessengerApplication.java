@@ -26,7 +26,7 @@ public class MessengerApplication {
 //        User u1 = userService.findById(1L);
 //        User u2 = userService.findById(2L);
 //        for (int i = 0; i<10_000;i++) {
-//            messageService.save(new Message(
+//            messageService.update(new Message(
 //                    null,
 //                    u1,u2, LocalDateTime.now(),String.valueOf(i)
 //            ));
