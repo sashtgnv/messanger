@@ -66,7 +66,9 @@ public class RestController {
     @GetMapping("/chat/{idRecipient}/getUser")
     public User.UserDTO getUser(@PathVariable Long idRecipient,
                                 @RequestHeader("api") boolean api) {
-        return userService.findById(idRecipient).getDTO();
+        User user = userService.findById(idRecipient);
+        var dto = user.getDTO();
+        return dto;
     }
 
     /*получения списка сообщений*/
@@ -76,12 +78,18 @@ public class RestController {
                                                 @RequestParam Long lastMessageid,
                                                 @RequestHeader("api") boolean api) {
 
-        List<Message> messages = messageService.findBySenderAndRecipient(sender.getId(), idRecipient);
-        List<Message.MessageDTO> messageDTOS = new ArrayList<>();
-        for (Message m : messages) messageDTOS.add(m.getDTO());
         try {
-            return (messages.getLast().getId().equals(lastMessageid)) ? List.of() : messageDTOS;
+            Message lastMessage = messageService.findLastBySenderAndRecipient(sender.getId(), idRecipient);/*err*/
+            if (lastMessage.getId().equals(lastMessageid)) {
+                return List.of();
+            } else {
+                List<Message> messages = messageService.findBySenderAndRecipient(sender.getId(), idRecipient);
+                List<Message.MessageDTO> messageDTOS = new ArrayList<>();
+                for (Message m : messages) messageDTOS.add(m.getDTO());
+                return messageDTOS;
+            }
         } catch (Exception e) {
+            System.err.println("нет сообщений");
             return List.of();
         }
     }
