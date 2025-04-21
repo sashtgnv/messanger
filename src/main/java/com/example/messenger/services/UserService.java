@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -30,7 +31,7 @@ public class UserService {
             user.setActive(true);
 
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-            user.getRoles().add(Role.ROLE_USER);
+            user.setRoles(Set.of(Role.ROLE_USER));
             userRepository.save(user);
             return true;
         }

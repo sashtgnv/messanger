@@ -89,7 +89,7 @@ public class RestController {
                 return messageDTOS;
             }
         } catch (Exception e) {
-            System.err.println("нет сообщений");
+//            System.err.println("нет сообщений");
             return List.of();
         }
     }

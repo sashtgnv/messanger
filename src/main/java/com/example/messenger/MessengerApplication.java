@@ -1,5 +1,6 @@
 package com.example.messenger;
 
+import com.example.messenger.enums.Role;
 import com.example.messenger.models.User;
 import com.example.messenger.services.MessageService;
 import com.example.messenger.services.UserService;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Set;
 
 @SpringBootApplication
 public class MessengerApplication {
@@ -23,23 +26,22 @@ public class MessengerApplication {
 
     public static void main(String[] args) {
 		SpringApplication.run(MessengerApplication.class, args);
-//        User u1 = userService.findById(1L);
-//        User u2 = userService.findById(2L);
-//        for (int i = 0; i<10_000;i++) {
-//            messageService.update(new Message(
-//                    null,
-//                    u1,u2, LocalDateTime.now(),String.valueOf(i)
-//            ));
-//        }
-        /*List<Message> messages = messageService.findBySenderAndRecipient(1L, 2L);
-        System.out.println((messages.getLast().getId()==1) ? List.of() : messages);*/
+        String p1 = "1234";
+        String p2 = "4321";
 
-		/*userService.createUser(new User(null,
-				"sashtgnv",
-				"sashtgnv@email.com",
-				"$2a$12$VTM3U9HPDtNAaGNk5Vt8J.qESFqUuwjOcCynzLv6BRbX9EPXhk/9K",
+		userService.createUser(new User(null,
+				"testuser1",
+				"test@email.com",
+				p1,
 				true,
-				Set.of(Role.ROLE_USER,Role.ROLE_ADMIN),
-				null));*/
+				null,
+				null));
+        userService.createUser(new User(null,
+				"testuser2",
+				"test2@email.com",
+				p2,
+				true,
+				null,
+				null));
 	}
 }
